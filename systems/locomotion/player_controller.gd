@@ -2,6 +2,11 @@ extends CharacterBody3D
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
+@onready var collision: CollisionShape3D = $CollisionShape3D
+@onready var head_cast: RayCast3D = $Head/HeadCast
+@onready var interaction_cast: RayCast3D = $Head/InteractionCast
+@onready var ui = get_node("Crosshair")
+
 
 var sprint_speed :float= GameSettings.settings.player_sprint_speed
 var jump_velocity := GameSettings.settings.player_jump_velocity
@@ -9,6 +14,9 @@ var speed := GameSettings.settings.player_speed
 var gravity := ProjectSettings.get_setting("physics/3d/default_gravity")
 var pitch := 0.0
 var controller: GameController = GameController._instance
+var is_crouching:bool = false
+var _crouch_tween: Tween
+var hovered: Node = null
 
 func _ready():
 	print("player is ready")
@@ -16,6 +24,8 @@ func _ready():
 	if camera:
 		camera.current = true
 		camera.fov = GameSettings.settings.base_fov
+	
+	interaction_cast.target_position = Vector3(0,0, -GameSettings.settings.interaction_distance)
 	
 	controller.game_state_changed.connect(_on_game_state_changed)
 	_on_game_state_changed(controller.game_state)
@@ -48,7 +58,33 @@ func _unhandled_input(event):
 	if event.is_action_pressed("pause"):
 		controller.toggle_pause()
 		print("Paussing from player_controller")
+	
+	if event.is_action_pressed("crouch"):
+		_set_crouching(true)
+	elif event.is_action_released("crouch"):
+		if head_cast.is_colliding(): return
+		_set_crouching(false)
 
+
+func _set_crouching(enable: bool):
+	if is_crouching == enable: return
+	
+	is_crouching = enable
+	var settings = GameSettings.settings
+	var target_height = settings.crouch_height if is_crouching else settings.standing_height
+	var shape = collision.shape as CapsuleShape3D
+	if shape == null:
+		push_warning("can't find collision for player to crouch")
+		return
+	
+	if _crouch_tween and _crouch_tween.is_running():
+		_crouch_tween.kill()
+	
+	_crouch_tween = create_tween()
+	_crouch_tween.tween_property(shape, "height", target_height, settings.crouch_transition_time)
+	
+	var head_target_y = target_height *0.5
+	_crouch_tween.tween_property(head, "position:y", head_target_y, settings.crouch_transition_time)
 
 func _process(delta):
 	var sens :float= GameSettings.get_normalized_sensitivity()
@@ -59,14 +95,17 @@ func _process(delta):
 		var sprint_fov := GameSettings.settings.sprint_fov
 		var fov_smooth_speed := GameSettings.settings.fov_smooth_speed
 		var sprinting := Input.is_action_pressed("sprint")
+		if is_crouching and sprinting: sprinting = false
 		target_fov = sprint_fov if sprinting else base_fov
 		camera.fov = lerp(camera.fov, target_fov, delta * fov_smooth_speed)
 
-
 func _physics_process(delta: float) -> void:
 	if controller.game_state != controller.GameState.RUNNING: return
-
+	_movement(delta)
+	_interaction(delta)
 	
+
+func _movement(delta:float):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var forward = global_transform.basis.z
 	var right = global_transform.basis.x
@@ -76,6 +115,8 @@ func _physics_process(delta: float) -> void:
 	direction = direction.normalized()
 
 	var target_speed = sprint_speed if Input.is_action_pressed("sprint") else speed
+	if is_crouching:
+		target_speed *= GameSettings.settings.crouch_speed
 	velocity.x = direction.x * target_speed
 	velocity.z = direction.z * target_speed
 	
@@ -91,3 +132,30 @@ func _on_settings_changed():
 	var s = GameSettings.settings
 	camera.fov = s.base_fov
 	s.sprint_fov = s.base_fov + 10.0
+
+## ----- INTERACTION -----
+func _interaction(delta:float):
+	interaction_cast.force_raycast_update()
+	var target: Node  = _get_target()
+	if target != hovered:
+		if not target:
+			print("no target. Hiding prompt for ", hovered)
+			ui.hide_prompt()
+		else:
+			print("Showing prompt target.get_prompt_text")
+			ui.show_prompt("Press F to interact with object")
+		
+		hovered = target
+	
+	if hovered and Input.is_action_just_pressed("interact"):
+		hovered.interact()
+
+func _get_target() -> Node:
+	var hit = interaction_cast.get_collider()
+	if hit:
+		var n = hit as Node
+		while n:
+			if n.has_method("interact"):
+				return n
+			n = n.get_parent()
+	return null

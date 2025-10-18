@@ -5,8 +5,11 @@ extends Node3D
 
 var walk_cooldown: float = 0.65
 var sprint_cooldown: float = 0.3
-var walk_pitch: float = 1.0
-var sprint_pitch: float = 1.25
+var crouch_cooldown: float = 0.75
+
+var walk_pitch: float = 0.75
+var sprint_pitch: float = 1.0
+var crouch_pitch: float = 0.75
 
 var step_timer: float = 0.0
 
@@ -27,8 +30,12 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var sprinting: bool = Input.is_action_pressed("sprint")
-	var current_cooldown: float = sprint_cooldown if sprinting else walk_cooldown
-	var current_pitch: float = sprint_pitch if sprinting else walk_pitch
+	var crouching: bool = Input.is_action_pressed("crouch")
+	
+	if crouching and sprinting: sprinting = false
+	# sprint_cooldown if sprinting crouch_cooldown if crouching else walk_cooldown
+	var current_cooldown: float = sprint_cooldown if sprinting else (crouch_cooldown if crouching else walk_cooldown)
+	var current_pitch: float = sprint_pitch if sprinting else (crouch_pitch if crouching else walk_pitch)
 
 	if step_timer <= 0.0 and _should_play_step(player):
 		_play_footstep(current_pitch)

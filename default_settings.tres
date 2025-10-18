@@ -20,6 +20,8 @@ metadata/_custom_type_script = "uid://dkdoh0weli4cb"
 
 [resource]
 script = ExtResource("1_osnyt")
+lean_distance = 0.25
+crouch_height = 1.0
 Starting_Level = ExtResource("1_e0na1")
 footstep_sounds = Array[ExtResource("2_75852")]([SubResource("Resource_tloak"), SubResource("Resource_plj2r")])
 metadata/_custom_type_script = "uid://yot8kho7r2m3"

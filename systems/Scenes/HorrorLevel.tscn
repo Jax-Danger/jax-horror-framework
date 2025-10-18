@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://blxnbdh02lpjk"]
-
-[ext_resource type="Script" uid="uid://b3yahvoeb8u2m" path="res://addons/jax-horror-framework/systems/Events/horror_level.gd" id="1_cl78s"]
-
-[node name="HorrorLevel" type="Node3D"]
-script = ExtResource("1_cl78s")

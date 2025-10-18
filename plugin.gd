@@ -13,11 +13,5 @@ func _enter_tree() -> void:
 		if not ProjectSettings.has_setting("autoload/%s" % a.name):
 			add_autoload_singleton(a["name"], a["path"])
 
-	# Register the custom node type
-	add_custom_type("HorrorLevel", "Node3D",
-		preload("res://addons/jax-horror-framework/autoloads/event_bus.gd"), 
-		preload("res://icon.svg")
-	)
-
 func _exit_tree() -> void:
 	remove_custom_type("HorrorLevel")

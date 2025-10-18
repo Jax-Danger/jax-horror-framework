@@ -1,9 +1,21 @@
-[gd_scene load_steps=12 format=3 uid="uid://b6vf1aji6dy38"]
+[gd_scene load_steps=19 format=3 uid="uid://b6vf1aji6dy38"]
 
-[ext_resource type="Script" uid="uid://b3yahvoeb8u2m" path="res://addons/jax-horror-framework/systems/Events/horror_level.gd" id="1_ebl01"]
+[ext_resource type="Script" uid="uid://d2oupep6273rw" path="res://addons/jax-horror-framework/autoloads/event_bus.gd" id="1_ubj60"]
+[ext_resource type="Script" uid="uid://dc60uybnh5n5d" path="res://addons/jax-horror-framework/systems/Events/LevelEvent.gd" id="2_ubj60"]
+[ext_resource type="Script" uid="uid://dmwel2x80wy31" path="res://addons/jax-horror-framework/systems/Events/EventActions.gd" id="3_cgfdt"]
+[ext_resource type="Script" uid="uid://c5xysb4cxuwls" path="res://addons/jax-horror-framework/systems/Events/SubtitleResource.gd" id="4_4ye32"]
 [ext_resource type="Material" uid="uid://rahnsut78f2j" path="res://addons/jax-horror-framework/systems/Materials/Concrete.tres" id="4_ppyta"]
-[ext_resource type="AudioStream" uid="uid://823rcq3egkja" path="res://addons/jax-horror-framework/systems/Audio/Voice/IntroVoice.mp3" id="6_g14j6"]
 [ext_resource type="Material" uid="uid://chfognsjnn5uy" path="res://addons/jax-horror-framework/systems/Materials/Wood.tres" id="6_vbegm"]
+[ext_resource type="Script" uid="uid://b8m4idwm3we2l" path="res://addons/jax-horror-framework/systems/Scenes/door.gd" id="7_ubj60"]
+
+[sub_resource type="Resource" id="Resource_2r4xu"]
+script = ExtResource("3_cgfdt")
+metadata/_custom_type_script = "uid://dmwel2x80wy31"
+
+[sub_resource type="Resource" id="Resource_mpoyg"]
+script = ExtResource("2_ubj60")
+actions = Array[ExtResource("3_cgfdt")]([SubResource("Resource_2r4xu")])
+metadata/_custom_type_script = "uid://dc60uybnh5n5d"
 
 [sub_resource type="BoxMesh" id="BoxMesh_6uqi0"]
 material = ExtResource("4_ppyta")
@@ -12,7 +24,7 @@ material = ExtResource("4_ppyta")
 size = Vector3(29.580105, 0.1, 7.065)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ppyta"]
-size = Vector3(0.5, 0.5, 0.5)
+size = Vector3(1.0847168, 0.5, 1.8631592)
 
 [sub_resource type="BoxMesh" id="BoxMesh_vbegm"]
 material = ExtResource("4_ppyta")
@@ -26,11 +38,16 @@ size = Vector3(6.1501465, 0.1, 3.9605713)
 [sub_resource type="BoxMesh" id="BoxMesh_00tp4"]
 material = ExtResource("6_vbegm")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_8iceo"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ubj60"]
+
 [node name="Test Level" type="Node3D"]
-script = ExtResource("1_ebl01")
-metadata/_custom_type_script = "uid://b3yahvoeb8u2m"
+script = ExtResource("1_ubj60")
+events = Array[ExtResource("2_ubj60")]([SubResource("Resource_mpoyg")])
 
 [node name="PlayerSpawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2783208, 1.5457532, 0)
 
 [node name="ConcreteFloor" type="StaticBody3D" parent="."]
 
@@ -44,9 +61,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.681379, 0, 0)
 shape = SubResource("BoxShape3D_ykrsh")
 
 [node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2921305, 1.1857669, 0.025344372)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.91630256, 1.1857669, 0.025344372)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20129395, 0, 0.13934326)
 shape = SubResource("BoxShape3D_ppyta")
 
 [node name="Map" type="CSGCombiner3D" parent="."]
@@ -80,12 +98,6 @@ size = Vector3(0.10546875, 4.1885986, 7.971466)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2583876, 1.6297326, -3.4331632)
 operation = 2
 size = Vector3(2.4303894, 3.5443726, 0.23098755)
-
-[node name="IntroSpeaker" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6015052, 3.748594, 3.1960785)
-stream = ExtResource("6_g14j6")
-unit_size = 0.4
-autoplay = true
 
 [node name="DifferentMaterials" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2562966, 2.9926937, -3.3897722)
@@ -121,3 +133,16 @@ mesh = SubResource("BoxMesh_00tp4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39467812, 1.8583319, 2.4171867)
 text = "Wood
 "
+
+[node name="Door" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.799308, 1.8577045, 0)
+collision_layer = 2
+script = ExtResource("7_ubj60")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13148546, 0)
+shape = SubResource("BoxShape3D_8iceo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13199449, 0)
+mesh = SubResource("BoxMesh_ubj60")

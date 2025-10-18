@@ -1,8 +1,9 @@
 extends Node3D
 
 var _played_subtitles: Dictionary = {}
+## Events for your horror level that trigger specifically on collision with an Area3D node.
 @export var events: Array[LevelEvent] = []
-
+var has_interacted = false
 
 func _ready() -> void:
 	for e in events:
@@ -47,7 +48,7 @@ func _execute_action(arg: Variant, e: LevelEvent, action: EventActions) -> void:
 	var target_path: NodePath = action.get("target_path")
 	var target_method: String = action.get("target_method")
 	var args: Array = action.get("arguments")
-
+	var is_interactable: bool = action.get("is_interactable")
 	if target_path == NodePath("") or target_method == "":
 		return
 
@@ -58,7 +59,7 @@ func _execute_action(arg: Variant, e: LevelEvent, action: EventActions) -> void:
 
 	if delay > 0.0:
 		await get_tree().create_timer(delay).timeout
-
+	
 	_call_method_safely(target, target_method, args)
 
 func _call_method_safely(target: Node, method_name: String, args: Array):

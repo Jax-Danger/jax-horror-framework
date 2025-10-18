@@ -1,0 +1,362 @@
+[gd_scene load_steps=10 format=3 uid="uid://cledvmiqwnwld"]
+
+[ext_resource type="Script" uid="uid://bnyk1mib2y3rm" path="res://addons/jax-horror-framework/UI/pause_menu.gd" id="1_kvajc"]
+[ext_resource type="Script" uid="uid://chl1jv2i02fmr" path="res://addons/jax-horror-framework/UI/version.gd" id="2_d1p1h"]
+[ext_resource type="Script" uid="uid://cyiuq20qtngs7" path="res://addons/jax-horror-framework/UI/pm_pause.gd" id="2_tyr3m"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0xnev"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kvajc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d1p1h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvajc"]
+bg_color = Color(1, 0.7908931, 0.75616145, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d1p1h"]
+bg_color = Color(1, 0.7921569, 0.75686276, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tyr3m"]
+
+[node name="PauseMenu" type="Control"]
+custom_minimum_size = Vector2(800, 500)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kvajc")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Pause" type="VBoxContainer" parent="Panel/TabContainer"]
+layout_mode = 2
+script = ExtResource("2_tyr3m")
+metadata/_tab_index = 0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel/TabContainer/Pause"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Panel/TabContainer/Pause/HBoxContainer2"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_0xnev")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/TabContainer/Pause/HBoxContainer2"]
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/TabContainer/Pause/HBoxContainer2/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_kvajc")
+
+[node name="ResumeButton" type="Button" parent="Panel/TabContainer/Pause/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 5
+tooltip_text = "Resumes the game."
+text = "Resume"
+
+[node name="QuitButton" type="Button" parent="Panel/TabContainer/Pause/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 5
+tooltip_text = "Resumes the game."
+text = "Quit to Desktop"
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/TabContainer/Pause/HBoxContainer2"]
+custom_minimum_size = Vector2(56.87, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_0xnev")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/TabContainer/Pause/HBoxContainer2"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Panel/TabContainer/Pause/HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_kvajc")
+
+[node name="Title" type="Label" parent="Panel/TabContainer/Pause/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 28
+text = "Change Title "
+horizontal_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/TabContainer/Pause/HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_kvajc")
+
+[node name="SubTitle" type="Label" parent="Panel/TabContainer/Pause/HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 20
+text = "Change SubTitle in PauseMenu"
+horizontal_alignment = 1
+autowrap_mode = 3
+text_direction = 1
+
+[node name="VSeparator3" type="VSeparator" parent="Panel/TabContainer/Pause"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_0xnev")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/TabContainer/Pause"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Version" type="Label" parent="Panel/TabContainer/Pause/HBoxContainer"]
+layout_mode = 2
+text = "Change version in Project Settings"
+script = ExtResource("2_d1p1h")
+
+[node name="VSeparator4" type="VSeparator" parent="Panel/TabContainer/Pause/HBoxContainer"]
+custom_minimum_size = Vector2(23, 30)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_kvajc")
+
+[node name="Mouse" type="VBoxContainer" parent="Panel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="TopSeparator" type="HSeparator" parent="Panel/TabContainer/Mouse"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="SensitivityBox" type="VBoxContainer" parent="Panel/TabContainer/Mouse"]
+layout_mode = 2
+
+[node name="LabelContainer" type="HBoxContainer" parent="Panel/TabContainer/Mouse/SensitivityBox"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Panel/TabContainer/Mouse/SensitivityBox/LabelContainer"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_d1p1h")
+
+[node name="SensitivityLabel" type="Label" parent="Panel/TabContainer/Mouse/SensitivityBox/LabelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "Control the sensitivity using the slider below"
+mouse_filter = 1
+text = "Sensitivity"
+
+[node name="sensResetBtn" type="Button" parent="Panel/TabContainer/Mouse/SensitivityBox/LabelContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+tooltip_text = "Press to reset the below value to default value"
+theme_override_font_sizes/font_size = 10
+theme_override_styles/hover = SubResource("StyleBoxFlat_kvajc")
+text = "reset"
+flat = true
+expand_icon = true
+
+[node name="SensitivityHBox" type="HBoxContainer" parent="Panel/TabContainer/Mouse/SensitivityBox"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Panel/TabContainer/Mouse/SensitivityBox/SensitivityHBox"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_d1p1h")
+
+[node name="SensitivitySlider" type="HSlider" parent="Panel/TabContainer/Mouse/SensitivityBox/SensitivityHBox"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+max_value = 50.0
+value = 20.0
+
+[node name="SensitivityPercentageLabel" type="Label" parent="Panel/TabContainer/Mouse/SensitivityBox/SensitivityHBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "% appears
+automatically"
+
+[node name="HSeparator2" type="HSeparator" parent="Panel/TabContainer/Mouse"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 21.575)
+layout_mode = 2
+
+[node name="FOVBox" type="VBoxContainer" parent="Panel/TabContainer/Mouse"]
+layout_mode = 2
+
+[node name="LabelContainer" type="HBoxContainer" parent="Panel/TabContainer/Mouse/FOVBox"]
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/TabContainer/Mouse/FOVBox/LabelContainer"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_d1p1h")
+
+[node name="FOVLabel" type="Label" parent="Panel/TabContainer/Mouse/FOVBox/LabelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "Control the Field of View using the slider below"
+mouse_filter = 1
+text = "Field of View"
+
+[node name="FOVResetBtn" type="Button" parent="Panel/TabContainer/Mouse/FOVBox/LabelContainer"]
+custom_minimum_size = Vector2(0.68, 3.87)
+layout_mode = 2
+size_flags_horizontal = 2
+tooltip_text = "Press to reset the below value to default value"
+theme_override_font_sizes/font_size = 10
+theme_override_styles/hover = SubResource("StyleBoxFlat_d1p1h")
+text = "reset"
+flat = true
+expand_icon = true
+
+[node name="FOVHBox" type="HBoxContainer" parent="Panel/TabContainer/Mouse/FOVBox"]
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/TabContainer/Mouse/FOVBox/FOVHBox"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_d1p1h")
+
+[node name="FOVSlider" type="HSlider" parent="Panel/TabContainer/Mouse/FOVBox/FOVHBox"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+min_value = 20.0
+max_value = 110.0
+value = 75.0
+rounded = true
+
+[node name="FOVPercentageLabel" type="Label" parent="Panel/TabContainer/Mouse/FOVBox/FOVHBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "% appears
+automatically"
+
+[node name="Audio" type="VBoxContainer" parent="Panel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="HSeparator3" type="HSeparator" parent="Panel/TabContainer/Audio"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 21.575)
+layout_mode = 2
+
+[node name="MasterVolumeLabelBox" type="HBoxContainer" parent="Panel/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/TabContainer/Audio/MasterVolumeLabelBox"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tyr3m")
+
+[node name="MasterVolumeLabel" type="Label" parent="Panel/TabContainer/Audio/MasterVolumeLabelBox"]
+layout_mode = 2
+text = "Master"
+
+[node name="MasterVolBox" type="HBoxContainer" parent="Panel/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/TabContainer/Audio/MasterVolBox"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tyr3m")
+
+[node name="MasterVolSlider" type="HSlider" parent="Panel/TabContainer/Audio/MasterVolBox"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+tooltip_text = "Not implemented yet."
+min_value = -15.0
+max_value = 0.0
+
+[node name="MasterVolPercentageLabel" type="Label" parent="Panel/TabContainer/Audio/MasterVolBox"]
+layout_mode = 2
+text = "% appears
+automatically"
+
+[node name="EnvVolumeLabelBox" type="HBoxContainer" parent="Panel/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/TabContainer/Audio/EnvVolumeLabelBox"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tyr3m")
+
+[node name="EnvVolumeLabel" type="Label" parent="Panel/TabContainer/Audio/EnvVolumeLabelBox"]
+layout_mode = 2
+text = "Environment"
+
+[node name="EnvVolBox" type="HBoxContainer" parent="Panel/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="Panel/TabContainer/Audio/EnvVolBox"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tyr3m")
+
+[node name="EnvVolSlider" type="HSlider" parent="Panel/TabContainer/Audio/EnvVolBox"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+tooltip_text = "Not implemented yet."
+min_value = -15.0
+max_value = 0.0
+
+[node name="EnvVolPercentageLabel" type="Label" parent="Panel/TabContainer/Audio/EnvVolBox"]
+layout_mode = 2
+text = "% appears
+automatically"
+
+[node name="MusicVolumeLabelBox" type="HBoxContainer" parent="Panel/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Panel/TabContainer/Audio/MusicVolumeLabelBox"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tyr3m")
+
+[node name="MusicVolumeLabel" type="Label" parent="Panel/TabContainer/Audio/MusicVolumeLabelBox"]
+layout_mode = 2
+text = "Music"
+
+[node name="MusicVolBox" type="HBoxContainer" parent="Panel/TabContainer/Audio"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="Panel/TabContainer/Audio/MusicVolBox"]
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tyr3m")
+
+[node name="MusicVolSlider" type="HSlider" parent="Panel/TabContainer/Audio/MusicVolBox"]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+tooltip_text = "Not implemented yet."
+min_value = -15.0
+max_value = 0.0
+
+[node name="MusicVolPercentageLabel" type="Label" parent="Panel/TabContainer/Audio/MusicVolBox"]
+layout_mode = 2
+text = "% appears
+automatically"

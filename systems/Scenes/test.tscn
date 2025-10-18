@@ -1,0 +1,123 @@
+[gd_scene load_steps=12 format=3 uid="uid://b6vf1aji6dy38"]
+
+[ext_resource type="Script" uid="uid://b3yahvoeb8u2m" path="res://addons/jax-horror-framework/systems/Events/horror_level.gd" id="1_ebl01"]
+[ext_resource type="Material" uid="uid://rahnsut78f2j" path="res://addons/jax-horror-framework/systems/Materials/Concrete.tres" id="4_ppyta"]
+[ext_resource type="AudioStream" uid="uid://823rcq3egkja" path="res://addons/jax-horror-framework/systems/Audio/Voice/IntroVoice.mp3" id="6_g14j6"]
+[ext_resource type="Material" uid="uid://chfognsjnn5uy" path="res://addons/jax-horror-framework/systems/Materials/Wood.tres" id="6_vbegm"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6uqi0"]
+material = ExtResource("4_ppyta")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ykrsh"]
+size = Vector3(29.580105, 0.1, 7.065)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ppyta"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vbegm"]
+material = ExtResource("4_ppyta")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ehkex"]
+size = Vector3(6.3673553, 0.1, 4.965)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xersf"]
+size = Vector3(6.1501465, 0.1, 3.9605713)
+
+[sub_resource type="BoxMesh" id="BoxMesh_00tp4"]
+material = ExtResource("6_vbegm")
+
+[node name="Test Level" type="Node3D"]
+script = ExtResource("1_ebl01")
+metadata/_custom_type_script = "uid://b3yahvoeb8u2m"
+
+[node name="PlayerSpawn" type="Marker3D" parent="."]
+
+[node name="ConcreteFloor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ConcreteFloor"]
+transform = Transform3D(29.306091, 0, 0, 0, 0.1, 0, 0, 0, 7.065, 12.653046, 0, 0)
+mesh = SubResource("BoxMesh_6uqi0")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteFloor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.681379, 0, 0)
+shape = SubResource("BoxShape3D_ykrsh")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2921305, 1.1857669, 0.025344372)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_ppyta")
+
+[node name="Map" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="Wall" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9356222, 2.1465387, 0.023498535)
+size = Vector3(0.10546875, 4.1885986, 7.078247)
+
+[node name="Wall4" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.41035, 2.1465387, 0.023498535)
+size = Vector3(0.10546875, 4.1885986, 7.078247)
+
+[node name="Wall2" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 12.71525, 2.1465387, 3.5323544)
+size = Vector3(0.10546875, 4.1885986, 29.397034)
+
+[node name="Wall3" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 12.71525, 2.1465387, -3.469401)
+size = Vector3(0.10546875, 4.1885986, 29.397034)
+
+[node name="Wall5" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.2809899, 2.1465387, -7.4710407)
+size = Vector3(0.10546875, 4.1885986, 7.971466)
+
+[node name="Wall6" type="CSGBox3D" parent="Map"]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 6.3077316, 2.1465387, -7.4710407)
+size = Vector3(0.10546875, 4.1885986, 7.971466)
+
+[node name="WallCutout" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2583876, 1.6297326, -3.4331632)
+operation = 2
+size = Vector3(2.4303894, 3.5443726, 0.23098755)
+
+[node name="IntroSpeaker" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6015052, 3.748594, 3.1960785)
+stream = ExtResource("6_g14j6")
+unit_size = 0.4
+autoplay = true
+
+[node name="DifferentMaterials" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2562966, 2.9926937, -3.3897722)
+text = "Different Material Sounds"
+
+[node name="ConcreteFloor2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.579, 0, -11.955)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ConcreteFloor2"]
+transform = Transform3D(6.431, 0, 0, 0, 0.1, 0, 0, 0, 4.965, -0.533844, 0, 1.9824219)
+mesh = SubResource("BoxMesh_vbegm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConcreteFloor2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.50202155, 0, 1.9824219)
+shape = SubResource("BoxShape3D_ehkex")
+
+[node name="Label" type="Label3D" parent="ConcreteFloor2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22054124, 1.8794065, 2.4171863)
+text = "Concrete"
+
+[node name="WoodenFloor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -6.993)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WoodenFloor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.32946777, 0, 1.4802856)
+shape = SubResource("BoxShape3D_xersf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WoodenFloor"]
+transform = Transform3D(6.1501465, 0, 0, 0, 0.1, 0, 0, 0, 3.9605713, 0.32946777, 0, 1.4802856)
+mesh = SubResource("BoxMesh_00tp4")
+
+[node name="Label" type="Label3D" parent="WoodenFloor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39467812, 1.8583319, 2.4171867)
+text = "Wood
+"

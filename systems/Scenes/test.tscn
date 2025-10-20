@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b6vf1aji6dy38"]
+[gd_scene load_steps=20 format=3 uid="uid://b6vf1aji6dy38"]
 
 [ext_resource type="Script" uid="uid://d2oupep6273rw" path="res://addons/jax-horror-framework/autoloads/event_bus.gd" id="1_ubj60"]
 [ext_resource type="Script" uid="uid://dc60uybnh5n5d" path="res://addons/jax-horror-framework/systems/Events/LevelEvent.gd" id="2_ubj60"]
@@ -6,15 +6,18 @@
 [ext_resource type="Script" uid="uid://c5xysb4cxuwls" path="res://addons/jax-horror-framework/systems/Events/SubtitleResource.gd" id="4_4ye32"]
 [ext_resource type="Material" uid="uid://rahnsut78f2j" path="res://addons/jax-horror-framework/systems/Materials/Concrete.tres" id="4_ppyta"]
 [ext_resource type="Material" uid="uid://chfognsjnn5uy" path="res://addons/jax-horror-framework/systems/Materials/Wood.tres" id="6_vbegm"]
-[ext_resource type="Script" uid="uid://b8m4idwm3we2l" path="res://addons/jax-horror-framework/systems/Scenes/door.gd" id="7_ubj60"]
+[ext_resource type="PackedScene" uid="uid://cnwnn36ld8j0a" path="res://addons/jax-horror-framework/prefabs/objects/door.tscn" id="7_ubj60"]
+[ext_resource type="Material" uid="uid://d0jikybkloy12" path="res://addons/jax-horror-framework/systems/Materials/carpet.tres" id="8_cgfdt"]
 
-[sub_resource type="Resource" id="Resource_2r4xu"]
-script = ExtResource("3_cgfdt")
-metadata/_custom_type_script = "uid://dmwel2x80wy31"
+[sub_resource type="Resource" id="Resource_ubj60"]
+script = ExtResource("4_4ye32")
+sub_title = "oop?"
+metadata/_custom_type_script = "uid://c5xysb4cxuwls"
 
 [sub_resource type="Resource" id="Resource_mpoyg"]
 script = ExtResource("2_ubj60")
-actions = Array[ExtResource("3_cgfdt")]([SubResource("Resource_2r4xu")])
+trigger_path = NodePath("Area3D")
+subtitles = Array[ExtResource("4_4ye32")]([SubResource("Resource_ubj60")])
 metadata/_custom_type_script = "uid://dc60uybnh5n5d"
 
 [sub_resource type="BoxMesh" id="BoxMesh_6uqi0"]
@@ -38,9 +41,11 @@ size = Vector3(6.1501465, 0.1, 3.9605713)
 [sub_resource type="BoxMesh" id="BoxMesh_00tp4"]
 material = ExtResource("6_vbegm")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_8iceo"]
+[sub_resource type="BoxMesh" id="BoxMesh_4ye32"]
+material = ExtResource("8_cgfdt")
 
-[sub_resource type="BoxMesh" id="BoxMesh_ubj60"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_2r4xu"]
+size = Vector3(6.8664246, 0.21614075, 1.7523804)
 
 [node name="Test Level" type="Node3D"]
 script = ExtResource("1_ubj60")
@@ -134,15 +139,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39467812, 1.8583319, 2.4171
 text = "Wood
 "
 
-[node name="Door" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.799308, 1.8577045, 0)
-collision_layer = 2
-script = ExtResource("7_ubj60")
+[node name="Door" parent="." instance=ExtResource("7_ubj60")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.716601, 0.005682349, 0)
+max_angle = 0.0
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Door"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13148546, 0)
-shape = SubResource("BoxShape3D_8iceo")
+[node name="CarpetFloor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.19988, 0, -13.359851)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Door"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13199449, 0)
-mesh = SubResource("BoxMesh_ubj60")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CarpetFloor"]
+transform = Transform3D(6.9037127, 0, 0, 0, 0.09547973, 0, 0, 0, 1.8170843, 0, 0, 0)
+mesh = SubResource("BoxMesh_4ye32")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CarpetFloor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02168274, -0.0634079, -0.0022888184)
+shape = SubResource("BoxShape3D_2r4xu")

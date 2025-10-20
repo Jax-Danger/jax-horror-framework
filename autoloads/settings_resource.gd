@@ -46,6 +46,16 @@ class_name SettingsResource
 ## Controls the Music volume; Make sure there is an Audio Bus named "Music"
 @export_range(-20, 0.0, 1.0) var musicVol := default_musicVol
 
+@export_category("footsteps")
+@export var walk_cooldown: float = 0.65
+@export var sprint_cooldown: float = 0.3
+@export var crouch_cooldown: float = 0.75
+
+@export var walk_pitch: float = 0.75
+@export var sprint_pitch: float = 1.0
+@export var crouch_pitch: float = 0.75
+
+@export var step_timer: float = 0.0
 @export var footstep_sounds: Array[FootstepData]=[]
 
 

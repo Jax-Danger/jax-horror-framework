@@ -1,21 +1,13 @@
+@tool
 extends Node3D
 
 @onready var ray: RayCast3D = $RayCast3D
 @onready var audio_player: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
-var walk_cooldown: float = 0.65
-var sprint_cooldown: float = 0.3
-var crouch_cooldown: float = 0.75
-
-var walk_pitch: float = 0.75
-var sprint_pitch: float = 1.0
-var crouch_pitch: float = 0.75
-
-var step_timer: float = 0.0
-
+var settings := GameSettings.settings
 
 func _physics_process(delta: float) -> void:
-	step_timer -= delta
+	settings.step_timer -= delta
 
 	var player: CharacterBody3D = get_parent() as CharacterBody3D
 	if not player or not is_instance_valid(player):
@@ -34,12 +26,12 @@ func _physics_process(delta: float) -> void:
 	
 	if crouching and sprinting: sprinting = false
 	# sprint_cooldown if sprinting crouch_cooldown if crouching else walk_cooldown
-	var current_cooldown: float = sprint_cooldown if sprinting else (crouch_cooldown if crouching else walk_cooldown)
-	var current_pitch: float = sprint_pitch if sprinting else (crouch_pitch if crouching else walk_pitch)
+	var current_cooldown: float = settings.sprint_cooldown if sprinting else (settings.crouch_cooldown if crouching else settings.walk_cooldown)
+	var current_pitch: float = settings.sprint_pitch if sprinting else (settings.crouch_pitch if crouching else settings.walk_pitch)
 
-	if step_timer <= 0.0 and _should_play_step(player):
+	if settings.step_timer <= 0.0 and _should_play_step(player):
 		_play_footstep(current_pitch)
-		step_timer = current_cooldown
+		settings.step_timer = current_cooldown
 
 
 func _should_play_step(player: CharacterBody3D) -> bool:

@@ -148,7 +148,7 @@ func _interaction(delta:float):
 		hovered = target
 	
 	if hovered and Input.is_action_just_pressed("interact"):
-		hovered.interact()
+		hovered.interact(self)
 
 func _get_target() -> Node:
 	var hit = interaction_cast.get_collider()
@@ -156,6 +156,7 @@ func _get_target() -> Node:
 		var n = hit as Node
 		while n:
 			if n.has_method("interact"):
+				print(n)
 				return n
 			n = n.get_parent()
 	return null

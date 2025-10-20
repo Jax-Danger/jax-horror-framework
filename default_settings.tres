@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="SettingsResource" load_steps=8 format=3 uid="uid://mljpp1tsnmh"]
+[gd_resource type="Resource" script_class="SettingsResource" load_steps=10 format=3 uid="uid://mljpp1tsnmh"]
 
 [ext_resource type="PackedScene" uid="uid://b6vf1aji6dy38" path="res://addons/jax-horror-framework/systems/Scenes/test.tscn" id="1_e0na1"]
 [ext_resource type="Script" uid="uid://yot8kho7r2m3" path="res://addons/jax-horror-framework/autoloads/settings_resource.gd" id="1_osnyt"]
 [ext_resource type="Script" uid="uid://dkdoh0weli4cb" path="res://addons/jax-horror-framework/systems/locomotion/Footsteps/FootstepData.gd" id="2_75852"]
 [ext_resource type="AudioStream" uid="uid://bmegptgfj3tex" path="res://addons/jax-horror-framework/systems/Audio/Sounds/Concrete.mp3" id="3_tloak"]
 [ext_resource type="AudioStream" uid="uid://cxaysy2krvurq" path="res://addons/jax-horror-framework/systems/Audio/Sounds/Wood.mp3" id="4_plj2r"]
+[ext_resource type="AudioStream" uid="uid://cjlrxd2ihmkg6" path="res://addons/jax-horror-framework/systems/Audio/Sounds/carpet.mp3" id="5_g4yxf"]
 
 [sub_resource type="Resource" id="Resource_tloak"]
 script = ExtResource("2_75852")
@@ -18,10 +19,16 @@ material_name = "Wood"
 footstep_sound = ExtResource("4_plj2r")
 metadata/_custom_type_script = "uid://dkdoh0weli4cb"
 
+[sub_resource type="Resource" id="Resource_8iv31"]
+script = ExtResource("2_75852")
+material_name = "carpet"
+footstep_sound = ExtResource("5_g4yxf")
+metadata/_custom_type_script = "uid://dkdoh0weli4cb"
+
 [resource]
 script = ExtResource("1_osnyt")
-lean_distance = 0.25
-crouch_height = 1.0
 Starting_Level = ExtResource("1_e0na1")
-footstep_sounds = Array[ExtResource("2_75852")]([SubResource("Resource_tloak"), SubResource("Resource_plj2r")])
+sprint_cooldown = 0.5
+sprint_pitch = 0.85
+footstep_sounds = Array[ExtResource("2_75852")]([SubResource("Resource_tloak"), SubResource("Resource_plj2r"), SubResource("Resource_8iv31")])
 metadata/_custom_type_script = "uid://yot8kho7r2m3"

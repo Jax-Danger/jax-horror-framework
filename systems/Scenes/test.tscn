@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b6vf1aji6dy38"]
+[gd_scene load_steps=25 format=3 uid="uid://b6vf1aji6dy38"]
 
 [ext_resource type="Script" uid="uid://d2oupep6273rw" path="res://addons/jax-horror-framework/autoloads/event_bus.gd" id="1_ubj60"]
 [ext_resource type="Script" uid="uid://dc60uybnh5n5d" path="res://addons/jax-horror-framework/systems/Events/LevelEvent.gd" id="2_ubj60"]
@@ -6,8 +6,9 @@
 [ext_resource type="Script" uid="uid://c5xysb4cxuwls" path="res://addons/jax-horror-framework/systems/Events/SubtitleResource.gd" id="4_4ye32"]
 [ext_resource type="Material" uid="uid://rahnsut78f2j" path="res://addons/jax-horror-framework/systems/Materials/Concrete.tres" id="4_ppyta"]
 [ext_resource type="Material" uid="uid://chfognsjnn5uy" path="res://addons/jax-horror-framework/systems/Materials/Wood.tres" id="6_vbegm"]
-[ext_resource type="PackedScene" uid="uid://cnwnn36ld8j0a" path="res://addons/jax-horror-framework/prefabs/objects/door.tscn" id="7_ubj60"]
+[ext_resource type="PackedScene" uid="uid://cnwnn36ld8j0a" path="res://addons/jax-horror-framework/prefabs/objects/door/door.tscn" id="7_ubj60"]
 [ext_resource type="Material" uid="uid://d0jikybkloy12" path="res://addons/jax-horror-framework/systems/Materials/carpet.tres" id="8_cgfdt"]
+[ext_resource type="PackedScene" uid="uid://c5j5fpwrhtdyt" path="res://addons/jax-horror-framework/systems/Items/flashlight.tscn" id="9_4ye32"]
 
 [sub_resource type="Resource" id="Resource_ubj60"]
 script = ExtResource("4_4ye32")
@@ -19,6 +20,20 @@ script = ExtResource("2_ubj60")
 trigger_path = NodePath("Area3D")
 subtitles = Array[ExtResource("4_4ye32")]([SubResource("Resource_ubj60")])
 metadata/_custom_type_script = "uid://dc60uybnh5n5d"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4ye32"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+energy_multiplier = 0.0
+
+[sub_resource type="Sky" id="Sky_2r4xu"]
+sky_material = SubResource("ProceduralSkyMaterial_4ye32")
+
+[sub_resource type="Environment" id="Environment_mpoyg"]
+background_mode = 2
+sky = SubResource("Sky_2r4xu")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_6uqi0"]
 material = ExtResource("4_ppyta")
@@ -47,12 +62,23 @@ material = ExtResource("8_cgfdt")
 [sub_resource type="BoxShape3D" id="BoxShape3D_2r4xu"]
 size = Vector3(6.8664246, 0.21614075, 1.7523804)
 
+[sub_resource type="BoxMesh" id="BoxMesh_2r4xu"]
+size = Vector3(15.355, 0.185, 7.11)
+
 [node name="Test Level" type="Node3D"]
 script = ExtResource("1_ubj60")
 events = Array[ExtResource("2_ubj60")]([SubResource("Resource_mpoyg")])
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mpoyg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.027921723, -0.8411827, 0.54002964, 0, 0.5402403, 0.8415108, -0.9996101, 0.02349643, -0.01508444, 0, 0, 0)
+light_energy = 0.5
+shadow_enabled = true
+
 [node name="PlayerSpawn" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2783208, 1.5457532, 0)
+transform = Transform3D(0.80278623, 0, 0.5962669, 0, 1, 0, -0.5962669, 0, 0.80278623, 6.684178, 1.5457532, 0.77687716)
 
 [node name="ConcreteFloor" type="StaticBody3D" parent="."]
 
@@ -153,3 +179,14 @@ mesh = SubResource("BoxMesh_4ye32")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CarpetFloor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02168274, -0.0634079, -0.0022888184)
 shape = SubResource("BoxShape3D_2r4xu")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.6971254, 0.5395745, -0.50723755)
+use_collision = true
+
+[node name="Item" parent="." instance=ExtResource("9_4ye32")]
+transform = Transform3D(-0.0012436749, 0.096028745, -0.9953778, -0.99991614, -0.012949983, 0, -0.012890125, 0.99529433, 0.0960368, 7.736001, 1.0811391, -0.22013131)
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.965624, 4.1084156, 0)
+mesh = SubResource("BoxMesh_2r4xu")

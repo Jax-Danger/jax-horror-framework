@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0cv3f0w6f85d"]
+
+[ext_resource type="Script" uid="uid://c6t2s8g2wx4f3" path="res://addons/jax-horror-framework/systems/Items/item.gd" id="1_x4p5i"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_x4p5i"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q4qqf"]
+size = Vector3(0.10356116, 0.103915215, 0.40824318)
+
+[node name="Item" type="Node3D"]
+script = ExtResource("1_x4p5i")
+
+[node name="ItemMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_x4p5i")
+
+[node name="InteractArea" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.14628586)
+collision_layer = 2
+collision_mask = 0
+
+[node name="Collision" type="CollisionShape3D" parent="InteractArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00265944, 0.041733265, -0.035315514)
+shape = SubResource("BoxShape3D_q4qqf")

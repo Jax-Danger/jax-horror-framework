@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://c5j5fpwrhtdyt"]
+
+[ext_resource type="Script" uid="uid://b6ndlh3qyrw7d" path="res://addons/jax-horror-framework/systems/Items/flashlight.gd" id="1_k732s"]
+[ext_resource type="Script" uid="uid://civ382yxfjatj" path="res://addons/jax-horror-framework/systems/Items/base_item.gd" id="2_uqsu2"]
+[ext_resource type="PackedScene" uid="uid://dhsbia2xmx0v7" path="res://addons/jax-horror-framework/prefabs/objects/flashlight/flashlight_prop.glb" id="3_qfnd6"]
+[ext_resource type="AudioStream" uid="uid://clujfubjkhev7" path="res://addons/jax-horror-framework/systems/Audio/Sounds/flashlight_sound.mp3" id="4_ayas7"]
+[ext_resource type="Texture2D" uid="uid://bddannru6uej5" path="res://addons/jax-horror-framework/systems/Materials/cookie_14.jpg" id="4_h8na8"]
+
+[sub_resource type="Resource" id="Resource_qfnd6"]
+script = ExtResource("2_uqsu2")
+item_name = "Flashlight"
+equippable = true
+metadata/_custom_type_script = "uid://civ382yxfjatj"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qfnd6"]
+size = Vector3(0.10356116, 0.103915215, 0.40824318)
+
+[node name="Flashlight" type="Node3D"]
+script = ExtResource("1_k732s")
+data = SubResource("Resource_qfnd6")
+
+[node name="mesh" parent="." instance=ExtResource("3_qfnd6")]
+transform = Transform3D(-1.0830379, 0, -0.5050289, 0, 1.195, 0, 0.5050289, 0, -1.0830379, 0, 0, 0.095455945)
+
+[node name="Light" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.13431793)
+visible = false
+light_energy = 10.0
+light_projector = ExtResource("4_h8na8")
+shadow_enabled = true
+spot_range = 12.0
+spot_angle = 32.14
+
+[node name="flashlight_sound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_ayas7")
+
+[node name="InteractArea" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.14628586)
+collision_layer = 2
+collision_mask = 0
+
+[node name="Collision" type="CollisionShape3D" parent="InteractArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00265944, 0.041733265, -0.035315514)
+shape = SubResource("BoxShape3D_qfnd6")

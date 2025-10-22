@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqomdt0ax1ysi"]
+[gd_scene load_steps=8 format=3 uid="uid://bqomdt0ax1ysi"]
 
 [ext_resource type="Script" uid="uid://bposhbs1j3181" path="res://addons/jax-horror-framework/systems/locomotion/player_controller.gd" id="1_366vk"]
 [ext_resource type="Script" uid="uid://doop8rg2vnjle" path="res://addons/jax-horror-framework/systems/locomotion/head_bob.gd" id="2_bihlh"]
@@ -10,12 +10,6 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u1jdw"]
 radius = 0.4
 
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_bihlh"]
-dof_blur_far_enabled = true
-dof_blur_far_transition = -1.0
-dof_blur_near_enabled = true
-dof_blur_near_transition = -1.0
-
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_366vk")
 
@@ -26,6 +20,9 @@ shape = SubResource("CapsuleShape3D_u1jdw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8161801, 0)
 script = ExtResource("2_bihlh")
 
+[node name="HandMarker" type="Marker3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.222, -0.228, -0.469)
+
 [node name="MicSystem" parent="Head" instance=ExtResource("3_bihlh")]
 
 [node name="HeadCast" type="RayCast3D" parent="Head"]
@@ -33,9 +30,7 @@ transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0
 target_position = Vector3(0, -0.505, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-attributes = SubResource("CameraAttributesPractical_bihlh")
 current = true
-fov = 37.849285
 near = 0.001
 
 [node name="InteractionCast" type="RayCast3D" parent="Head"]

@@ -7,6 +7,7 @@ extends CharacterBody3D
 @onready var interaction_cast: RayCast3D = $Head/InteractionCast
 @onready var ui = get_node("Crosshair")
 @onready var mic_system: Node = $Head/MicSystem
+@onready var hand_marker: Marker3D = $Head/HandMarker
 
 
 
@@ -21,6 +22,7 @@ var is_crouching:bool = false
 var _crouch_tween: Tween
 var hovered: Node = null
 
+var equipped_item: Node3D = null
 func _ready():
 	print("player is ready")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -163,3 +165,28 @@ func _get_target() -> Node:
 				return n
 			n = n.get_parent()
 	return null
+
+
+func equip_item(item:Node3D):
+	if equipped_item:
+		equipped_item.queue_free()
+	
+
+	equipped_item = item
+	equipped_item.equipped = true
+	equipped_item.get_parent().remove_child(equipped_item)
+	hand_marker.add_child(equipped_item)
+	equipped_item.transform = Transform3D.IDENTITY
+	equipped_item.scale = Vector3.ONE
+	equipped_item.position = Vector3.ZERO
+	equipped_item.rotation = Vector3.ZERO
+
+	if equipped_item.has_method("on_equipped"):
+		equipped_item.on_equipped()
+	
+	print("🔧 Equipped:", equipped_item.name)
+
+
+func add_to_inventory(item: Node3D):
+	item.queue_free()
+	print("📦 Added ", item.name, " to inventory (placeholder).")

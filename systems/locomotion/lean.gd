@@ -1,5 +1,4 @@
 extends Node3D
-
 var settings := GameSettings.get_settings()
 var lean_angle := settings.lean_angle       # degrees to tilt
 var lean_distance := settings.lean_distance    # how far the camera shifts sideways

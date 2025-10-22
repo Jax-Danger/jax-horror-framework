@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d0cv3f0w6f85d"]
 
-[ext_resource type="Script" uid="uid://c6t2s8g2wx4f3" path="res://addons/jax-horror-framework/systems/Items/item.gd" id="1_x4p5i"]
+[ext_resource type="Script" uid="uid://c6t2s8g2wx4f3" path="res://systems/Items/item.gd" id="1_x4p5i"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_x4p5i"]
 

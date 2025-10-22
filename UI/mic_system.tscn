@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bwo5oo2hfp4o3"]
 
-[ext_resource type="Script" uid="uid://q3qlmo0mtf3g" path="res://addons/jax-horror-framework/UI/microphone_system.gd" id="1_1qyd2"]
+[ext_resource type="Script" uid="uid://q3qlmo0mtf3g" path="res://UI/microphone_system.gd" id="1_1qyd2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xarpr"]
 bg_color = Color(0.3854925, 0.3854925, 0.38549235, 0.74509805)
@@ -18,8 +18,8 @@ bus = &"Record"
 [node name="MicrophoneLevels" type="CanvasLayer" parent="."]
 
 [node name="VolumeBar" type="ProgressBar" parent="MicrophoneLevels"]
-anchors_preset = -1
-anchor_top = 1.0354939
+anchors_preset = 2
+anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 32.0
 offset_top = -135.0

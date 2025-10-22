@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://cxaysy2krvurq"
-path="res://.godot/imported/Wood.mp3-edef53ff856ed9a058fc26f6b04f3c73.mp3str"
+path="res://.godot/imported/Wood.mp3-f47a71f5b8d6a58406df36bfc22405a9.mp3str"
 
 [deps]
 
-source_file="res://addons/jax-horror-framework/systems/Audio/Sounds/Wood.mp3"
-dest_files=["res://.godot/imported/Wood.mp3-edef53ff856ed9a058fc26f6b04f3c73.mp3str"]
+source_file="res://systems/Audio/Sounds/Wood.mp3"
+dest_files=["res://.godot/imported/Wood.mp3-f47a71f5b8d6a58406df36bfc22405a9.mp3str"]
 
 [params]
 

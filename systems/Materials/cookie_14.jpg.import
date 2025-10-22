@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bddannru6uej5"
-path="res://.godot/imported/cookie_14.jpg-54b430c2f6317e93fa7319f058121d12.ctex"
+path="res://.godot/imported/cookie_14.jpg-52a4a838ef7e5941b9ee739dbb20d9c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/jax-horror-framework/systems/Materials/cookie_14.jpg"
-dest_files=["res://.godot/imported/cookie_14.jpg-54b430c2f6317e93fa7319f058121d12.ctex"]
+source_file="res://systems/Materials/cookie_14.jpg"
+dest_files=["res://.godot/imported/cookie_14.jpg-52a4a838ef7e5941b9ee739dbb20d9c4.ctex"]
 
 [params]
 

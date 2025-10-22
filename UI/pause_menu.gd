@@ -16,8 +16,9 @@ extends Control
 @onready var quit_button: Button = $Panel/TabContainer/Pause/HBoxContainer2/VBoxContainer2/QuitButton
 @onready var pause_tab: VBoxContainer = $Panel/TabContainer/Pause
 
-var default_fov = GameSettings.settings.default_fov
-var default_sens = GameSettings.settings.default_sensitivity
+var settings := GameSettings.get_settings()
+var default_fov = settings.default_fov
+var default_sens = settings.default_sensitivity
 
 # Audio
 var mastVol = AudioServer.get_bus_index("Master")
@@ -39,7 +40,7 @@ func _ready():
 
 
 func _load_settings():
-	var s = GameSettings.settings
+	var s = settings
 	sensitivity_slider.value = s.mouse_sensitivity
 	sensitivity_percentage_label.text = str(sensitivity_slider.value) + " %"
 	fov_slider.value = s.base_fov
@@ -78,19 +79,19 @@ func _on_sensReset_pressed():
 	GameSettings.save_settings()
 
 func _on_envvol_changed(value:float):
-	GameSettings.settings.envVol = value
+	GameSettings.settings.envVol = int(value)
 	GameSettings.save_settings()
 	env_vol_percentage_label.text = str(value) + " dB"
 	AudioServer.set_bus_volume_db(envVol, value)
 	
 func _on_musicvol_changed(value:float):
-	GameSettings.settings.musicVol = value
+	GameSettings.settings.musicVol = int(value)
 	GameSettings.save_settings()
 	music_vol_percentage_label.text = str(value) + " dB"
 	AudioServer.set_bus_volume_db(musicVol, value)
 	
 func _on_mastervol_changed(value:float):
-	GameSettings.settings.masterVol = value
+	GameSettings.settings.masterVol = int(value)
 	GameSettings.save_settings()
 	master_vol_percentage_label.text = str(value) + " dB"
 	AudioServer.set_bus_volume_db(mastVol, value)
@@ -104,7 +105,7 @@ func _on_sensitivity_changed(value:float):
 	print("Updated mouse sensitivity:", value)
 
 func _on_fov_changed(value:float):
-	GameSettings.settings.base_fov = value
+	GameSettings.settings.base_fov = int(value)
 	GameSettings.save_settings()
 	if value > default_fov or value < default_fov:
 		fov_reset_btn.visible = true

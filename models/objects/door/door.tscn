@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cnwnn36ld8j0a"]
+
+[ext_resource type="Script" uid="uid://ckrxc1fl7s2xb" path="res://_important/door_interactive.gd" id="1_xamu5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_61l3t"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w06wf"]
+size = Vector3(0.11444092, 2.2772522, 0.9983978)
+
+[node name="Door" type="Node3D"]
+script = ExtResource("1_xamu5")
+metadata/_custom_type_script = "uid://ckrxc1fl7s2xb"
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.057849906, 0, 0, 0, 2.3616998, 0, 0, 0, 1.036965, 0.020452917, 1.2050267, -0.5422957)
+mesh = SubResource("BoxMesh_61l3t")
+
+[node name="InteractArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1536496, -0.5186932)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]
+shape = SubResource("BoxShape3D_w06wf")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1430609, -0.56119096)
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_w06wf")

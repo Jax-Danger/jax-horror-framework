@@ -1,4 +1,4 @@
-extends "res://addons/jax-horror-framework/systems/locomotion/lean.gd"
+extends "res://systems/locomotion/lean.gd"
 
 var bob_frequency_walk := settings.bob_frequency_walk
 var bob_frequency_run := settings.bob_frequency_run
@@ -26,8 +26,8 @@ func _process(delta: float) -> void:
 	
 	if speed > 0.1 and is_grounded:
 		var sprinting := Input.is_action_pressed("sprint")
-		var frequency := lerp(bob_frequency_walk, bob_frequency_run, float(sprinting))
-		var amplitude := lerp(bob_amplitude_walk, bob_amplitude_run, float(sprinting))
+		var frequency = lerp(bob_frequency_walk, bob_frequency_run, float(sprinting))
+		var amplitude = lerp(bob_amplitude_walk, bob_amplitude_run, float(sprinting))
 
 		bob_timer += delta * frequency
 		var offset_y = sin(bob_timer * 2.0) * amplitude

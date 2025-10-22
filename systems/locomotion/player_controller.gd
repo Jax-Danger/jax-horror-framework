@@ -15,7 +15,7 @@ extends CharacterBody3D
 var sprint_speed :float= GameSettings.settings.player_sprint_speed
 var jump_velocity := GameSettings.settings.player_jump_velocity
 var speed := GameSettings.settings.player_speed
-var gravity := ProjectSettings.get_setting("physics/3d/default_gravity")
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var pitch := 0.0
 var controller: GameController = GameController._instance
 var is_crouching:bool = false
@@ -90,7 +90,6 @@ func _set_crouching(enable: bool):
 	_crouch_tween.tween_property(head, "position:y", head_target_y, settings.crouch_transition_time)
 
 func _process(delta):
-	var sens :float= GameSettings.get_normalized_sensitivity()
 	var target_fov := camera.fov
 	
 	if GameSettings.settings:
@@ -116,8 +115,7 @@ func _movement(delta:float):
 
 	direction.y = 0
 	direction = direction.normalized()
-
-	var target_speed = sprint_speed if Input.is_action_pressed("sprint") else speed
+	var target_speed = (sprint_speed as float) if Input.is_action_pressed("sprint") else (speed as float)
 	if is_crouching:
 		target_speed *= GameSettings.settings.crouch_speed
 	velocity.x = direction.x * target_speed
@@ -139,7 +137,7 @@ func _on_settings_changed():
 
 
 ## ----- INTERACTION -----
-func _interaction(delta:float):
+func _interaction(_delta:float):
 	interaction_cast.force_raycast_update()
 	var target: Node  = _get_target()
 	if target != hovered:
@@ -148,7 +146,7 @@ func _interaction(delta:float):
 			ui.hide_prompt()
 		else:
 			print("Showing prompt target.get_prompt_text")
-			ui.show_prompt("Press F to interact with object")
+			ui.show_prompt()
 		
 		hovered = target
 	
@@ -161,7 +159,6 @@ func _get_target() -> Node:
 		var n = hit as Node
 		while n:
 			if n.has_method("interact"):
-				print(n)
 				return n
 			n = n.get_parent()
 	return null
@@ -170,7 +167,6 @@ func _get_target() -> Node:
 func equip_item(item:Node3D):
 	if equipped_item:
 		equipped_item.queue_free()
-	
 
 	equipped_item = item
 	equipped_item.equipped = true

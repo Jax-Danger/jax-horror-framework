@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://c5j5fpwrhtdyt"]
 
-[ext_resource type="Script" uid="uid://b6ndlh3qyrw7d" path="res://addons/jax-horror-framework/systems/Items/flashlight.gd" id="1_k732s"]
-[ext_resource type="Script" uid="uid://civ382yxfjatj" path="res://addons/jax-horror-framework/systems/Items/base_item.gd" id="2_uqsu2"]
-[ext_resource type="PackedScene" uid="uid://dhsbia2xmx0v7" path="res://addons/jax-horror-framework/prefabs/objects/flashlight/flashlight_prop.glb" id="3_qfnd6"]
-[ext_resource type="AudioStream" uid="uid://clujfubjkhev7" path="res://addons/jax-horror-framework/systems/Audio/Sounds/flashlight_sound.mp3" id="4_ayas7"]
-[ext_resource type="Texture2D" uid="uid://bddannru6uej5" path="res://addons/jax-horror-framework/systems/Materials/cookie_14.jpg" id="4_h8na8"]
+[ext_resource type="Script" uid="uid://b6ndlh3qyrw7d" path="res://systems/Items/flashlight.gd" id="1_k732s"]
+[ext_resource type="Script" uid="uid://civ382yxfjatj" path="res://systems/Items/base_item.gd" id="2_uqsu2"]
+[ext_resource type="PackedScene" uid="uid://dhsbia2xmx0v7" path="res://models/objects/flashlight/flashlight_prop.glb" id="3_qfnd6"]
+[ext_resource type="AudioStream" uid="uid://clujfubjkhev7" path="res://systems/Audio/Sounds/flashlight_sound.mp3" id="4_ayas7"]
+[ext_resource type="Texture2D" uid="uid://bddannru6uej5" path="res://systems/Materials/cookie_14.jpg" id="4_h8na8"]
 
 [sub_resource type="Resource" id="Resource_qfnd6"]
 script = ExtResource("2_uqsu2")

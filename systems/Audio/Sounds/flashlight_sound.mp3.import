@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://clujfubjkhev7"
-path="res://.godot/imported/flashlight_sound.mp3-0e05cc3ae39f1d64785b15e1ce9fd8fe.mp3str"
+path="res://.godot/imported/flashlight_sound.mp3-70f070b374ad1be433a25dbdd4a0cdd5.mp3str"
 
 [deps]
 
-source_file="res://addons/jax-horror-framework/systems/Audio/Sounds/flashlight_sound.mp3"
-dest_files=["res://.godot/imported/flashlight_sound.mp3-0e05cc3ae39f1d64785b15e1ce9fd8fe.mp3str"]
+source_file="res://systems/Audio/Sounds/flashlight_sound.mp3"
+dest_files=["res://.godot/imported/flashlight_sound.mp3-70f070b374ad1be433a25dbdd4a0cdd5.mp3str"]
 
 [params]
 

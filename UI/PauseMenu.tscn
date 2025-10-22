@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://cledvmiqwnwld"]
 
-[ext_resource type="Script" uid="uid://bnyk1mib2y3rm" path="res://addons/jax-horror-framework/UI/pause_menu.gd" id="1_kvajc"]
-[ext_resource type="Script" uid="uid://chl1jv2i02fmr" path="res://addons/jax-horror-framework/UI/version.gd" id="2_d1p1h"]
-[ext_resource type="Script" uid="uid://cyiuq20qtngs7" path="res://addons/jax-horror-framework/UI/pm_pause.gd" id="2_tyr3m"]
+[ext_resource type="Script" uid="uid://bnyk1mib2y3rm" path="res://UI/pause_menu.gd" id="1_kvajc"]
+[ext_resource type="Script" uid="uid://chl1jv2i02fmr" path="res://UI/version.gd" id="2_d1p1h"]
+[ext_resource type="Script" uid="uid://cyiuq20qtngs7" path="res://UI/pm_pause.gd" id="2_tyr3m"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0xnev"]
 

@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://cjlrxd2ihmkg6"
-path="res://.godot/imported/carpet.mp3-c1d18923a6a6ef90bdff9aaa4f305c9d.mp3str"
+path="res://.godot/imported/carpet.mp3-128a3c700a075589d40179a89ce595a1.mp3str"
 
 [deps]
 
-source_file="res://addons/jax-horror-framework/systems/Audio/Sounds/carpet.mp3"
-dest_files=["res://.godot/imported/carpet.mp3-c1d18923a6a6ef90bdff9aaa4f305c9d.mp3str"]
+source_file="res://systems/Audio/Sounds/carpet.mp3"
+dest_files=["res://.godot/imported/carpet.mp3-128a3c700a075589d40179a89ce595a1.mp3str"]
 
 [params]
 

@@ -6,7 +6,7 @@ func _ready() -> void:
 	crosshair.visible = false
 
 
-func show_prompt(text:String)->void:
+func show_prompt()->void:
 	crosshair.visible = true
 
 func hide_prompt()-> void:

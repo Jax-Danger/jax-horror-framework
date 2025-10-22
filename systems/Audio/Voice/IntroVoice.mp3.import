@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://823rcq3egkja"
-path="res://.godot/imported/IntroVoice.mp3-d87cb060640db66afc19beccb903b62a.mp3str"
+path="res://.godot/imported/IntroVoice.mp3-3b2972090a8f9b19b9e5b87eb7476a92.mp3str"
 
 [deps]
 
-source_file="res://addons/jax-horror-framework/systems/Audio/Voice/IntroVoice.mp3"
-dest_files=["res://.godot/imported/IntroVoice.mp3-d87cb060640db66afc19beccb903b62a.mp3str"]
+source_file="res://systems/Audio/Voice/IntroVoice.mp3"
+dest_files=["res://.godot/imported/IntroVoice.mp3-3b2972090a8f9b19b9e5b87eb7476a92.mp3str"]
 
 [params]
 

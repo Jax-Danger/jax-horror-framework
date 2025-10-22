@@ -1,19 +1,24 @@
 extends Node3D
 
-var lean_angle := GameSettings.settings.lean_angle       # degrees to tilt
-var lean_distance := GameSettings.settings.lean_distance    # how far the camera shifts sideways
-var lean_speed := GameSettings.settings.lean_speed       # how fast lean happens
-var return_speed := GameSettings.settings.return_speed       # slower return feels natural
-
+var settings := GameSettings.get_settings()
+var lean_angle := settings.lean_angle       # degrees to tilt
+var lean_distance := settings.lean_distance    # how far the camera shifts sideways
+var lean_speed := settings.lean_speed       # how fast lean happens
+var return_speed := settings.return_speed       # slower return feels natural
 var target_lean: float = 0.0
 var current_lean: float = 0.0
 var base_position: Vector3
+
+
 
 func _ready() -> void:
 	# Store the camera's original local position for reference
 	base_position = position
 
 func _process(delta: float) -> void:
+	_leaning(delta)
+	
+func _leaning(delta:float):
 	# --- Detect lean input ---
 	var input_lean := 0.0
 	if Input.is_action_pressed("lean_left"):

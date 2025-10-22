@@ -21,6 +21,16 @@ class_name SettingsResource
 ## Controls the return speed; slower feels more natural
 @export_range(0.0, 10.0, 1.0) var return_speed := default_lean_return_speed       # slower return feels natural
 
+## How fast the bob happens while walking
+@export var bob_frequency_walk := 6.0    
+## Faster when sprinting
+@export var bob_frequency_run := 9.0     
+## How tall the bobbing is
+@export var bob_amplitude_walk := 0.04   
+@export var bob_amplitude_run := 0.07
+## Camera smoothing
+@export var smooth := 10.0               
+
 # INTERACTION 
 @export var interaction_distance: float = 3.0
 

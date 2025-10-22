@@ -9,6 +9,8 @@ extends CharacterBody3D
 @onready var mic_system: Node = $Head/MicSystem
 
 
+
+
 var sprint_speed :float= GameSettings.settings.player_sprint_speed
 var jump_velocity := GameSettings.settings.player_jump_velocity
 var speed := GameSettings.settings.player_speed
@@ -46,7 +48,6 @@ func _enable_control():
 func _disable_control():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-
 func _input(event: InputEvent) -> void:
 	if controller.game_state != controller.GameState.RUNNING: return
 	if event is InputEventMouseMotion:
@@ -65,7 +66,6 @@ func _unhandled_input(event):
 	elif event.is_action_released("crouch"):
 		if head_cast.is_colliding(): return
 		_set_crouching(false)
-
 
 func _set_crouching(enable: bool):
 	if is_crouching == enable: return
@@ -88,7 +88,6 @@ func _set_crouching(enable: bool):
 	_crouch_tween.tween_property(head, "position:y", head_target_y, settings.crouch_transition_time)
 
 func _process(delta):
-	
 	var sens :float= GameSettings.get_normalized_sensitivity()
 	var target_fov := camera.fov
 	
@@ -101,11 +100,11 @@ func _process(delta):
 		target_fov = sprint_fov if sprinting else base_fov
 		camera.fov = lerp(camera.fov, target_fov, delta * fov_smooth_speed)
 
+
 func _physics_process(delta: float) -> void:
 	if controller.game_state != controller.GameState.RUNNING: return
 	_movement(delta)
 	_interaction(delta)
-	
 
 func _movement(delta:float):
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -134,6 +133,8 @@ func _on_settings_changed():
 	var s = GameSettings.settings
 	camera.fov = s.base_fov
 	s.sprint_fov = s.base_fov + 10.0
+
+
 
 ## ----- INTERACTION -----
 func _interaction(delta:float):

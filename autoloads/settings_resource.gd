@@ -55,7 +55,7 @@ class_name SettingsResource
 @export var sprint_pitch: float = 1.0
 @export var crouch_pitch: float = 0.75
 
-@export var step_timer: float = 0.0
+
 @export var footstep_sounds: Array[FootstepData]=[]
 
 

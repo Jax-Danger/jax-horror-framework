@@ -4,10 +4,11 @@ extends Node3D
 @onready var ray: RayCast3D = $RayCast3D
 @onready var audio_player: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
-var settings := GameSettings.settings
+var settings:= GameSettings.get_settings()
+var step_timer: float = 0.0
 
 func _physics_process(delta: float) -> void:
-	settings.step_timer -= delta
+	step_timer -= delta
 
 	var player: CharacterBody3D = get_parent() as CharacterBody3D
 	if not player or not is_instance_valid(player):
@@ -29,9 +30,9 @@ func _physics_process(delta: float) -> void:
 	var current_cooldown: float = settings.sprint_cooldown if sprinting else (settings.crouch_cooldown if crouching else settings.walk_cooldown)
 	var current_pitch: float = settings.sprint_pitch if sprinting else (settings.crouch_pitch if crouching else settings.walk_pitch)
 
-	if settings.step_timer <= 0.0 and _should_play_step(player):
+	if step_timer <= 0.0 and _should_play_step(player):
 		_play_footstep(current_pitch)
-		settings.step_timer = current_cooldown
+		step_timer = current_cooldown
 
 
 func _should_play_step(player: CharacterBody3D) -> bool:

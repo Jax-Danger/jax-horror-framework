@@ -2,14 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bposhbs1j3181" path="res://addons/jax-horror-framework/systems/locomotion/player_controller.gd" id="1_366vk"]
 [ext_resource type="Script" uid="uid://dgy1akkaj3cjp" path="res://addons/jax-horror-framework/systems/locomotion/lean.gd" id="2_eyxh8"]
+[ext_resource type="PackedScene" uid="uid://bwo5oo2hfp4o3" path="res://addons/jax-horror-framework/UI/mic_system.tscn" id="3_bihlh"]
 [ext_resource type="Script" uid="uid://f6013nc2t6c7" path="res://addons/jax-horror-framework/systems/locomotion/footstepEmitter.gd" id="3_ev5dl"]
 [ext_resource type="Script" uid="uid://shf44tf72xs5" path="res://addons/jax-horror-framework/systems/locomotion/subtitle_manager.gd" id="4_f05bl"]
 [ext_resource type="Script" uid="uid://clf03ptc07uqv" path="res://addons/jax-horror-framework/systems/locomotion/crosshair.gd" id="5_bmqo7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u1jdw"]
 radius = 0.4
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_366vk"]
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_366vk")
@@ -20,6 +19,8 @@ shape = SubResource("CapsuleShape3D_u1jdw")
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8161801, 0)
 script = ExtResource("2_eyxh8")
+
+[node name="MicSystem" parent="Head" instance=ExtResource("3_bihlh")]
 
 [node name="HeadCast" type="RayCast3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0)
@@ -38,11 +39,6 @@ volume_db = -5.0
 unit_size = 0.1
 
 [node name="FootstepEmitter" type="Node3D" parent="."]
-
-[node name="BodyMesh" type="MeshInstance3D" parent="."]
-visible = false
-cast_shadow = 0
-mesh = SubResource("CapsuleMesh_366vk")
 
 [node name="Feet" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17962861, 0)

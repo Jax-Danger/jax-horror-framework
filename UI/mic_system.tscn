@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwo5oo2hfp4o3"]
+
+[ext_resource type="Script" uid="uid://q3qlmo0mtf3g" path="res://addons/jax-horror-framework/UI/microphone_system.gd" id="1_1qyd2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xarpr"]
+bg_color = Color(0.3854925, 0.3854925, 0.38549235, 0.74509805)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6mah7"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="MicSystem" type="Node3D"]
+script = ExtResource("1_1qyd2")
+
+[node name="MicPlayer" type="AudioStreamPlayer3D" parent="."]
+unit_size = 0.5
+bus = &"Record"
+
+[node name="MicrophoneLevels" type="CanvasLayer" parent="."]
+
+[node name="VolumeBar" type="ProgressBar" parent="MicrophoneLevels"]
+anchors_preset = -1
+anchor_top = 1.0354939
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -135.0
+offset_right = 56.0
+offset_bottom = 3.0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_xarpr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6mah7")
+fill_mode = 3
+show_percentage = false
+metadata/_edit_use_anchors_ = true

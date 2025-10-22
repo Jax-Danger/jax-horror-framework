@@ -6,6 +6,7 @@ extends CharacterBody3D
 @onready var head_cast: RayCast3D = $Head/HeadCast
 @onready var interaction_cast: RayCast3D = $Head/InteractionCast
 @onready var ui = get_node("Crosshair")
+@onready var mic_system: Node = $Head/MicSystem
 
 
 var sprint_speed :float= GameSettings.settings.player_sprint_speed
@@ -87,6 +88,7 @@ func _set_crouching(enable: bool):
 	_crouch_tween.tween_property(head, "position:y", head_target_y, settings.crouch_transition_time)
 
 func _process(delta):
+	
 	var sens :float= GameSettings.get_normalized_sensitivity()
 	var target_fov := camera.fov
 	

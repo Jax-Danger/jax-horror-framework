@@ -1,45 +1,123 @@
-extends Node3D
+extends StaticBody3D
 class_name DoorInteractive
 
-@export var open_axis: Vector3 = Vector3.UP
-@export var min_angle: float = -90.0
-@export var max_angle: float = 90.0
-@export var sensitivity: float = 0.3
 
-var _is_grabbed := false
-var _current_angle: float = 0.0
-var _open_direction: float = 1.0
-var _player_ref: Node = null
+# === CONFIG ===
+@export var min_angle_deg: float = 0.0
+@export var max_angle_deg: float = 95.0
+@export var door_sensitivity: float = 0.01
+@export var max_nudge_deg: float = 40.0
+@export var min_nudge_distance: float = 0.5
+@export var max_nudge_distance: float = 2.0
+@export var closed_threshold_deg: float = 5.0
+@export var creak_volume: float = -30.0
+@export var min_creak_speed: float = 0.008
 
-func interact(player: Node) -> void:
-	_is_grabbed = true
-	_player_ref = player
+# === NODES ===
+@onready var hinge: Marker3D = $"../Hinge"
+@onready var audio_creak: AudioStreamPlayer3D = $AudioCreak
+@onready var audio_close: AudioStreamPlayer3D = $AudioClose
 
-	# Compute player's side relative to hinge plane
-	var door_pos: Vector3 = global_transform.origin
-	var player_pos: Vector3 = player.global_transform.origin
+# === STATE ===
+var player: Node3D
+var is_held := false
+var door_angle := 0.0
+var last_angle := 0.0
+var facing_invert := 1
+var was_closed := false
+var initial_basis: Basis
+var hinge_axis: Vector3
 
-	# Door's local "right" direction (the side opposite the hinge)
-	var right_dir: Vector3 = global_transform.basis.x.normalized()
-	var to_player: Vector3 = (player_pos - door_pos).normalized()
 
-	# Dot product decides which side player is on
-	var side := right_dir.dot(to_player)
-	_open_direction = 1.0 if side >= 0.0 else -1.0
-	# Players on one side push, on the other pull
+func _ready() -> void:
+	add_to_group("doors")
+	audio_creak.volume_db = creak_volume
+	audio_close.volume_db = -20
 
-func stop_interacting() -> void:
-	_is_grabbed = false
-	_player_ref = null
+	# store initial transform reference
+	initial_basis = global_transform.basis
+	hinge_axis = hinge.global_transform.basis.y.normalized()
 
+
+# === INPUT ===
 func _input(event: InputEvent) -> void:
-	if not _is_grabbed:
-		return
+	if is_held and event is InputEventMouseMotion:
+		var delta = -event.relative.x * door_sensitivity * facing_invert
+		door_angle = clamp(
+			door_angle + delta,
+			deg_to_rad(min_angle_deg),
+			deg_to_rad(max_angle_deg)
+		)
+		_rotate_about_hinge(door_angle)
 
-	if event is InputEventMouseMotion:
-		var delta :float= event.relative.x * sensitivity * _open_direction
-		_current_angle = clamp(_current_angle + delta, min_angle, max_angle)
-		rotation = open_axis * deg_to_rad(_current_angle)
 
-	elif event.is_action_released("interact"):
-		stop_interacting()
+# === ROTATION AROUND HINGE AXIS ===
+func _rotate_about_hinge(angle: float) -> void:
+	var hinge_pos = hinge.global_transform.origin
+	var door_pos = global_transform.origin
+
+	# direction from hinge to door
+	var offset = door_pos - hinge_pos
+
+	# rotation in world space using hinge's current axis
+	var rot_basis = Basis(hinge_axis, angle)
+	var rotated_offset = rot_basis * offset
+
+	# apply new transform
+	var xform = Transform3D()
+	xform.origin = hinge_pos + rotated_offset
+	xform.basis = rot_basis * initial_basis
+	global_transform = xform
+
+	# --- AUDIO ---
+	var angle_diff = abs(angle - last_angle)
+	var is_moving = angle_diff > min_creak_speed
+
+	if is_moving and not audio_creak.playing:
+		audio_creak.play()
+	elif not is_moving and audio_creak.playing:
+		audio_creak.stop()
+
+	if abs(rad_to_deg(angle) - min_angle_deg) <= closed_threshold_deg:
+		if not was_closed:
+			audio_close.play()
+			was_closed = true
+	else:
+		was_closed = false
+
+	last_angle = angle
+
+
+# === INTERACTION ===
+func grab(p: Node3D, hit_pos: Vector3, side: int) -> void:
+	player = p
+	is_held = true
+	if side != 0:
+		facing_invert = side
+	_apply_nudge(hit_pos)
+
+
+func let_go() -> void:
+	is_held = false
+	audio_creak.stop()
+
+
+# === NUDGE ===
+func _apply_nudge(hit_pos: Vector3) -> void:
+	var cam_pos = player.get_node("head/Camera3D").global_transform.origin
+	var distance = cam_pos.distance_to(hit_pos)
+	var nudge_strength = clamp(
+		(distance - min_nudge_distance) / (max_nudge_distance - min_nudge_distance),
+		0.0, 1.0
+	)
+
+	var nudge_deg = lerp(0.0, max_nudge_deg, nudge_strength)
+	var current_deg = rad_to_deg(door_angle)
+	var nudge_dir = facing_invert
+	var target = clamp(
+		deg_to_rad(current_deg + nudge_deg * nudge_dir),
+		deg_to_rad(min_angle_deg),
+		deg_to_rad(max_angle_deg)
+	)
+	door_angle = target
+	_rotate_about_hinge(target)

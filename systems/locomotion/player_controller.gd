@@ -22,6 +22,9 @@ var is_crouching:bool = false
 var _crouch_tween: Tween
 var hovered: Node = null
 
+var grabbed_door = null
+var last_side := 1
+
 var equipped_item: Node3D = null
 func _ready():
 	print("player is ready")
@@ -50,7 +53,7 @@ func _enable_control():
 func _disable_control():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if controller.game_state != controller.GameState.RUNNING: return
 	if event is InputEventMouseMotion:
 		var sens := GameSettings.get_normalized_sensitivity()
@@ -58,7 +61,8 @@ func _input(event: InputEvent) -> void:
 		pitch = clamp(pitch - event.relative.y * sens * 0.1, -1.3, 1.3)
 		head.rotation.x = pitch
 
-func _unhandled_input(event):
+func _input(event:InputEvent) ->void:
+	_doors(event)
 	if event.is_action_pressed("pause"):
 		controller.toggle_pause()
 		print("Paussing from player_controller")
@@ -68,6 +72,25 @@ func _unhandled_input(event):
 	elif event.is_action_released("crouch"):
 		if head_cast.is_colliding(): return
 		_set_crouching(false)
+
+func _doors(event):
+	if event.is_action_pressed("interact"):
+		if ray.is_colliding():
+			print("colliding.")
+			var collider = ray.get_collider()
+			if collider.is_in_group("doors"):
+				var hit_pos: Vector3 = ray.get_collision_point()
+				var side := get_side_of(collider)
+				collider.grab(self, hit_pos, side)
+				grabbed_door = collider
+	if event.is_action_released("interact"):
+		if grabbed_door:
+			grabbed_door.let_go()
+			grabbed_door = null
+
+
+
+
 
 func _set_crouching(enable: bool):
 	if is_crouching == enable: return

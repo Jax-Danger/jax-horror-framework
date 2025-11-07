@@ -74,17 +74,28 @@ func _input(event:InputEvent) ->void:
 		_set_crouching(false)
 
 func _doors(event):
-	if event.is_action_pressed("interact"):
-		if ray.is_colliding():
-			print("colliding.")
-			var collider = ray.get_collider()
-			if collider.is_in_group("doors"):
-				var hit_pos: Vector3 = ray.get_collision_point()
+	# === When interact is held ===
+	if Input.is_action_pressed("interact"):
+		if interaction_ray.is_colliding():
+			var collider = interaction_ray.get_collider()
+
+			# (1) If not currently holding a door and we’re looking at one → grab it
+			if not grabbed_door and collider.is_in_group("doors"):
+				var hit_pos: Vector3 = interaction_ray.get_collision_point()
 				var side := get_side_of(collider)
 				collider.grab(self, hit_pos, side)
 				grabbed_door = collider
-	if event.is_action_released("interact"):
-		if grabbed_door:
+				print("✅ Grabbed door.")
+
+			# (2) If we have a grabbed door but are no longer looking at it → release
+			elif grabbed_door and collider != grabbed_door:
+				print("👁️ Looked away from door — releasing grab.")
+				grabbed_door.let_go()
+				grabbed_door = null
+
+		# (3) No collision at all while holding → release
+		elif grabbed_door:
+			print("👁️ Lost sight of door — releasing grab.")
 			grabbed_door.let_go()
 			grabbed_door = null
 

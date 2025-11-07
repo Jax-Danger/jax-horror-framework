@@ -1,17 +1,15 @@
 extends StaticBody3D
-class_name DoorInteractive
-
 
 # === CONFIG ===
-@export var min_angle_deg: float = 0.0
-@export var max_angle_deg: float = 95.0
-@export var door_sensitivity: float = 0.01
-@export var max_nudge_deg: float = 40.0
-@export var min_nudge_distance: float = 0.5
-@export var max_nudge_distance: float = 2.0
-@export var closed_threshold_deg: float = 5.0
-@export var creak_volume: float = -30.0
-@export var min_creak_speed: float = 0.008
+var min_angle_deg: float = 0.0
+var max_angle_deg: float = 95.0
+var door_sensitivity: float = 0.005
+var max_nudge_deg: float = 40.0
+var min_nudge_distance: float = 0.5
+var max_nudge_distance: float = 12.0
+var closed_threshold_deg: float = 0.2
+var creak_volume: float = -38.0
+var min_creak_speed: float = 2.0
 
 # === NODES ===
 @onready var hinge: Marker3D = $"../Hinge"
@@ -71,12 +69,15 @@ func _rotate_about_hinge(angle: float) -> void:
 
 	# --- AUDIO ---
 	var angle_diff = abs(angle - last_angle)
-	var is_moving = angle_diff > min_creak_speed
+	var is_moving = angle_diff > (min_creak_speed / 105)
 
 	if is_moving and not audio_creak.playing:
 		audio_creak.play()
-	elif not is_moving and audio_creak.playing:
-		audio_creak.stop()
+	#elif not is_moving and audio_creak.playing:
+		#print("not moving creak playing")
+		#get_tree().create_timer(2)
+		#print("2 seconds")
+		#audio_creak.stop()
 
 	if abs(rad_to_deg(angle) - min_angle_deg) <= closed_threshold_deg:
 		if not was_closed:
@@ -104,20 +105,44 @@ func let_go() -> void:
 
 # === NUDGE ===
 func _apply_nudge(hit_pos: Vector3) -> void:
+	var hinge_pos = hinge.global_transform.origin
+	var up = hinge_axis.normalized()
+
+	# Vector from hinge to current door position and hinge to raycast hit
+	var door_vec = (global_transform.origin - hinge_pos).normalized()
+	var hit_vec = (hit_pos - hinge_pos).normalized()
+
+	# Flatten to the hinge’s rotation plane (remove vertical drift)
+	door_vec -= up * door_vec.dot(up)
+	hit_vec -= up * hit_vec.dot(up)
+
+	if door_vec.length_squared() == 0 or hit_vec.length_squared() == 0:
+		return
+
+	door_vec = door_vec.normalized()
+	hit_vec = hit_vec.normalized()
+
+	# Signed angle between door’s current facing and hit direction
+	var sin_a = up.dot(door_vec.cross(hit_vec))
+	var cos_a = door_vec.dot(hit_vec)
+	var target_delta = atan2(sin_a, cos_a)
+
+	# Scale nudge depending on distance (further = stronger)
 	var cam_pos = player.get_node("head/Camera3D").global_transform.origin
 	var distance = cam_pos.distance_to(hit_pos)
 	var nudge_strength = clamp(
 		(distance - min_nudge_distance) / (max_nudge_distance - min_nudge_distance),
-		0.0, 1.0
+		0.2, 1.0
 	)
 
-	var nudge_deg = lerp(0.0, max_nudge_deg, nudge_strength)
-	var current_deg = rad_to_deg(door_angle)
-	var nudge_dir = facing_invert
-	var target = clamp(
-		deg_to_rad(current_deg + nudge_deg * nudge_dir),
-		deg_to_rad(min_angle_deg),
-		deg_to_rad(max_angle_deg)
-	)
-	door_angle = target
-	_rotate_about_hinge(target)
+	# Apply toward hit direction, respecting facing_invert
+	var new_angle = door_angle + target_delta * nudge_strength * facing_invert
+	new_angle = clamp(new_angle, deg_to_rad(min_angle_deg), deg_to_rad(max_angle_deg))
+
+	door_angle = new_angle
+	_rotate_about_hinge(door_angle)
+
+	print("🎯 Nudge → Δ°:", rad_to_deg(target_delta),
+		  "| Strength:", nudge_strength,
+		  "| FacingInvert:", facing_invert,
+		  "| New Door Angle°:", rad_to_deg(door_angle))

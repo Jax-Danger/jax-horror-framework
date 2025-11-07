@@ -99,7 +99,21 @@ func _doors(event):
 			grabbed_door.let_go()
 			grabbed_door = null
 
-
+# Returns 1 if player is in front of the door, -1 if behind
+func get_side_of(target: Node3D) -> int:
+	# Use hinge for a stable forward direction
+	var hinge = target.get_node_or_null("../Hinge")
+	var forward_ref = hinge if hinge else target  # fallback if hinge missing
+	var door_forward = -forward_ref.global_transform.basis.z.normalized()
+	var to_player = (global_transform.origin - forward_ref.global_transform.origin).normalized()
+	var dot = door_forward.dot(to_player)
+	# Wider deadzone and memory
+	if dot > 0.2:
+		last_side = 1
+	elif dot < -0.2:
+		last_side = -1
+	# otherwise keep last_side
+	return last_side
 
 
 

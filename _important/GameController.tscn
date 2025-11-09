@@ -17,7 +17,7 @@ sky = SubResource("Sky_m3mt1")
 tonemap_mode = 2
 glow_enabled = true
 
-[node name="GameController" type="Node3D"]
+[node name="GameController" type="Node"]
 script = ExtResource("1_yc0us")
 player_scene = ExtResource("3_d5mdm")
 
@@ -41,3 +41,4 @@ grow_vertical = 2
 [node name="PauseMenu" parent="GUI" instance=ExtResource("4_d5mdm")]
 visible = false
 layout_mode = 1
+mouse_filter = 1

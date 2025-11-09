@@ -76,12 +76,12 @@ func _input(event:InputEvent) ->void:
 func _doors(event):
 	# === When interact is held ===
 	if Input.is_action_pressed("interact"):
-		if interaction_ray.is_colliding():
-			var collider = interaction_ray.get_collider()
+		if interaction_cast.is_colliding():
+			var collider = interaction_cast.get_collider()
 
 			# (1) If not currently holding a door and we’re looking at one → grab it
 			if not grabbed_door and collider.is_in_group("doors"):
-				var hit_pos: Vector3 = interaction_ray.get_collision_point()
+				var hit_pos: Vector3 = interaction_cast.get_collision_point()
 				var side := get_side_of(collider)
 				collider.grab(self, hit_pos, side)
 				grabbed_door = collider
@@ -98,6 +98,14 @@ func _doors(event):
 			print("👁️ Lost sight of door — releasing grab.")
 			grabbed_door.let_go()
 			grabbed_door = null
+
+	# === When interact is released ===
+	elif event.is_action_released("interact"):
+		if grabbed_door:
+			print("🖐️ Released interact — let go of door.")
+			grabbed_door.let_go()
+			grabbed_door = null
+
 
 # Returns 1 if player is in front of the door, -1 if behind
 func get_side_of(target: Node3D) -> int:

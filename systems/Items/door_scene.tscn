@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dpgu2b53kqciw"]
+
+[ext_resource type="Script" uid="uid://c76cspprkvqj6" path="res://_important/door.gd" id="1_maol7"]
+[ext_resource type="AudioStream" uid="uid://ykpyucb3c1qf" path="res://_audio/DoorCreak.wav" id="2_maol7"]
+[ext_resource type="AudioStream" uid="uid://rv7cuxye1k6s" path="res://_audio/DoorClose.wav" id="3_p8rwt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3h11n"]
+albedo_color = Color(0.411641, 0.36590976, 0.3175886, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3h11n"]
+material = SubResource("StandardMaterial3D_3h11n")
+size = Vector3(0.03463745, 2.1047173, 0.84558105)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v04o5"]
+size = Vector3(0.1024369, 1.1826003, 0.7005997)
+
+[node name="DoorScene" type="Node3D"]
+
+[node name="Hinge" type="Marker3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Door" type="StaticBody3D" parent="." groups=["doors"]]
+collision_layer = 3
+script = ExtResource("1_maol7")
+
+[node name="DoorMesh" type="MeshInstance3D" parent="Door"]
+transform = Transform3D(1.7160754, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.054, 0.4)
+mesh = SubResource("BoxMesh_3h11n")
+skeleton = NodePath("")
+
+[node name="Collision" type="CollisionShape3D" parent="Door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0010228008, 1.1612892, 0.47634232)
+shape = SubResource("BoxShape3D_v04o5")
+
+[node name="AudioCreak" type="AudioStreamPlayer3D" parent="Door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05192423, 0.695574, 0.5516095)
+stream = ExtResource("2_maol7")
+unit_size = 0.2
+bus = &"Environment"
+
+[node name="AudioClose" type="AudioStreamPlayer3D" parent="Door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1780972, 0.7199135)
+stream = ExtResource("3_p8rwt")
+bus = &"Environment"

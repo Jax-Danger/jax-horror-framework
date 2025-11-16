@@ -14,7 +14,7 @@ var player: Node3D = null
 var is_loading: bool = false
 
 enum GameState { RUNNING, PAUSED }
-var game_state: GameState = GameState.PAUSED
+var game_state: GameState = GameState.RUNNING
 signal game_state_changed(state: GameState)
 signal scene_loaded(scene_path: String)
 signal scene_unloaded(scene_path: String)

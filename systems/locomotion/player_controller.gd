@@ -11,7 +11,6 @@ extends CharacterBody3D
 
 
 
-
 var sprint_speed :float= GameSettings.settings.player_sprint_speed
 var jump_velocity := GameSettings.settings.player_jump_velocity
 var speed := GameSettings.settings.player_speed
@@ -27,46 +26,39 @@ var last_side := 1
 
 var equipped_item: Node3D = null
 func _ready():
-	print("player is ready")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	if camera:
 		camera.current = true
 		camera.fov = GameSettings.settings.base_fov
-	
 	interaction_cast.target_position = Vector3(0,0, -GameSettings.settings.interaction_distance)
-	
 	controller.game_state_changed.connect(_on_game_state_changed)
+	GameSettings.settings_changed.connect(_on_settings_changed)
 	_on_game_state_changed(controller.game_state)
-	GameSettings.connect("settings_changed", Callable(self, "_on_settings_changed"))
-	
+
 func _on_game_state_changed(state:int)->void:
 	if state == GameController.GameState.RUNNING:
-		_enable_control()
+		_enable_controls(true)
 		print("Controls enabled")
 	else:
-		_disable_control()
+		_enable_controls(false)
 		print("controls disabled")
 
-func _enable_control():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+func _enable_controls(enable:bool):
+	if enable: Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	else: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-func _disable_control():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if controller.game_state != controller.GameState.RUNNING: return
 	if event is InputEventMouseMotion:
 		var sens := GameSettings.get_normalized_sensitivity()
 		rotate_y(-event.relative.x * sens * 0.1)
 		pitch = clamp(pitch - event.relative.y * sens * 0.1, -1.3, 1.3)
 		head.rotation.x = pitch
-
-func _input(event:InputEvent) ->void:
 	_doors(event)
+
+func _unhandled_input(event:InputEvent) ->void:
 	if event.is_action_pressed("pause"):
 		controller.toggle_pause()
-		print("Paussing from player_controller")
-	
 	if event.is_action_pressed("crouch"):
 		_set_crouching(true)
 	elif event.is_action_released("crouch"):
@@ -81,23 +73,10 @@ func _doors(event):
 
 			# (1) If not currently holding a door and we’re looking at one → grab it
 			if not grabbed_door and collider.is_in_group("doors"):
-				var hit_pos: Vector3 = interaction_cast.get_collision_point()
 				var side := get_side_of(collider)
-				collider.grab(self, hit_pos, side)
+				collider.grab(side)
 				grabbed_door = collider
 				print("✅ Grabbed door.")
-
-			# (2) If we have a grabbed door but are no longer looking at it → release
-			elif grabbed_door and collider != grabbed_door:
-				print("👁️ Looked away from door — releasing grab.")
-				grabbed_door.let_go()
-				grabbed_door = null
-
-		# (3) No collision at all while holding → release
-		elif grabbed_door:
-			print("👁️ Lost sight of door — releasing grab.")
-			grabbed_door.let_go()
-			grabbed_door = null
 
 	# === When interact is released ===
 	elif event.is_action_released("interact"):
@@ -122,8 +101,6 @@ func get_side_of(target: Node3D) -> int:
 		last_side = -1
 	# otherwise keep last_side
 	return last_side
-
-
 
 func _set_crouching(enable: bool):
 	if is_crouching == enable: return
@@ -156,7 +133,6 @@ func _process(delta):
 		if is_crouching and sprinting: sprinting = false
 		target_fov = sprint_fov if sprinting else base_fov
 		camera.fov = lerp(camera.fov, target_fov, delta * fov_smooth_speed)
-
 
 func _physics_process(delta: float) -> void:
 	if controller.game_state != controller.GameState.RUNNING: return

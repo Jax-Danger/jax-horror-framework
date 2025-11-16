@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://btrji065eanbs"]
+[gd_scene load_steps=22 format=3 uid="uid://btrji065eanbs"]
 
 [ext_resource type="Script" uid="uid://d2oupep6273rw" path="res://_important/event_bus.gd" id="1_ubj60"]
 [ext_resource type="Script" uid="uid://dc60uybnh5n5d" path="res://systems/Events/LevelEvent.gd" id="2_ubj60"]
@@ -8,6 +8,7 @@
 [ext_resource type="Material" uid="uid://chfognsjnn5uy" path="res://systems/Materials/Wood.tres" id="6_vbegm"]
 [ext_resource type="Material" uid="uid://d0jikybkloy12" path="res://systems/Materials/carpet.tres" id="8_cgfdt"]
 [ext_resource type="PackedScene" uid="uid://c5j5fpwrhtdyt" path="res://systems/Items/flashlight.tscn" id="9_4ye32"]
+[ext_resource type="PackedScene" uid="uid://dpgu2b53kqciw" path="res://systems/Items/door_scene.tscn" id="9_oqf4i"]
 
 [sub_resource type="Resource" id="Resource_ubj60"]
 script = ExtResource("4_4ye32")
@@ -163,3 +164,6 @@ transform = Transform3D(-0.0012436749, 0.096028745, -0.9953778, -0.99991614, -0.
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.965624, 4.1084156, 0)
 mesh = SubResource("BoxMesh_2r4xu")
+
+[node name="DoorScene" parent="." instance=ExtResource("9_oqf4i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.171364, 0.05000019, -0.39145705)
